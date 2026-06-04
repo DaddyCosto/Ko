@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anniversaire 17 ans - Zanzè Angeline</title>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  overflow:hidden;
+  background:black;
+}
+
+/* INTRO */
+#intro{
+  position:fixed;
+  width:100%;
+  height:100vh;
+  background:black;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:1000;
+  animation:fadeOut 3s ease 3s forwards;
+}
+
+@keyframes fadeOut{
+  to{opacity:0; visibility:hidden;}
+}
+
+/* SLIDES */
+.slide{
+  position:absolute;
+  width:100%;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  opacity:0;
+  transform:scale(1.2);
+  transition:1s ease;
+  padding:20px;
+}
+
+.active{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* BACKGROUNDS */
+#s1{background:linear-gradient(135deg,#ffdde1,#ee9ca7);}
+#s2{background:linear-gradient(135deg,#a1c4fd,#c2e9fb);}
+#s3{background:linear-gradient(135deg,#fbc2eb,#a6c1ee);}
+#s4{background:linear-gradient(135deg,#fdfbfb,#ebedee);}
+#s5{background:linear-gradient(135deg,#fff1eb,#ace0f9);}
+
+h1{
+  font-size:2.5em;
+  color:white;
+  text-shadow:0 0 15px rgba(0,0,0,0.5);
+}
+
+p{
+  font-size:1.2em;
+  max-width:80%;
+}
+
+/* images */
+img{
+  width:250px;
+  border-radius:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+  margin:15px;
+}
+
+/* bouton musique */
+#btnMusic{
+  padding:15px 20px;
+  border:none;
+  border-radius:20px;
+  background:#ff4d6d;
+  color:white;
+  cursor:pointer;
+  position:absolute;
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO CINÉMA -->
+<div id="intro">
+  <h1>🎬 Zanzè Angeline</h1>
+  <p>Un film d’anniversaire commence...</p>
+</div>
+
+<!-- SLIDES -->
+<section class="slide active" id="s1">
+  <h1>🎉 Joyeux Anniversaire 17 ans 🎉</h1>
+  <p>Zanzè Angeline 💖</p>
+</section>
+
+<section class="slide" id="s2">
+  <h1>🐱 Zanzè Angeline</h1>
+  <img src="https://images.unsplash.com/photo-1511044568932-338cba0ad803">
+  <p>Un chat t’envoie plein d’amour 💕</p>
+</section>
+
+<section class="slide" id="s3">
+  <h1>✨ La légende des 17 étoiles ✨</h1>
+  <p>
+    À 17 ans, une étoile spéciale apparaît dans le ciel.<br>
+    Elle guide les rêves de Zanzè Angeline 🌟
+  </p>
+</section>
+
+<section class="slide" id="s4">
+  <h1>🎶 Active la magie 🎶</h1>
+  <button id="btnMusic">Touche-moi</button>
+
+  <audio id="music">
+    <source src="music.mp3" type="audio/mp3">
+  </audio>
+</section>
+
+<section class="slide" id="s5">
+  <h1>🐶 FINAL 🎆</h1>
+  <img src="https://images.unsplash.com/photo-1558788353-f76d92427f16">
+
+  <p>
+    🎉 Zanzè Angeline 🎉<br><br>
+    Lawson Jean Pierre te souhaite le meilleur des anniversaires ✨
+  </p>
+</section>
+
+<script>
+
+/* SLIDES AUTO */
+let current = 0;
+const slides = document.querySelectorAll(".slide");
+
+function show(i){
+  slides.forEach(s => s.classList.remove("active"));
+  slides[i].classList.add("active");
+}
+
+setInterval(()=>{
+  if(current < slides.length - 1){
+    current++;
+    show(current);
+  }
+}, 6000);
+
+/* CONFETTIS */
+setInterval(()=>{
+  confetti({
+    particleCount: 12,
+    spread: 160,
+    origin: {y:0}
+  });
+}, 500);
+
+/* MUSIQUE */
+const btn = document.getElementById("btnMusic");
+const music = document.getElementById("music");
+let moves = 0;
+
+function moveBtn(){
+  btn.style.left = Math.random()*70 + "vw";
+  btn.style.top = Math.random()*70 + "vh";
+
+  moves++;
+
+  if(moves >= 3){
+    music.play().catch(()=>{});
+    btn.innerText = "🎵 Lecture...";
+  }
+}
+
+btn.addEventListener("click", moveBtn);
+btn.addEventListener("mouseover", moveBtn);
+
+/* sécurité mobile */
+document.body.addEventListener("click", ()=>{
+  music.play().catch(()=>{});
+}, {once:true});
+
+</script>
+
+</body>
+</html>
